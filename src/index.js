@@ -12,8 +12,8 @@ class App extends Component {
                     <a className="navbar-brand text-white">Chat React</a>
                 </nav>
                 <div className="container p-5"></div>
-                <div class="row">
-                    <div class="col-md-6 offset-md-3">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3">
                         <ChatRoom />
                     </div>
                 </div>
