@@ -12,6 +12,22 @@
 
 <body>
     <div id="app"></div>
+
+    <!-- Firebase -->
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAk2lEIbod4nAB9XSN_PoeXGRbErEIuazk",
+            authDomain: "chat-react-firebase-app-cd38d.firebaseapp.com",
+            databaseURL: "https://chat-react-firebase-app-cd38d.firebaseio.com",
+            projectId: "chat-react-firebase-app-cd38d",
+            storageBucket: "chat-react-firebase-app-cd38d.appspot.com",
+            messagingSenderId: "252580038810"
+        };
+        firebase.initializeApp(config);
+    </script>
 </body>
 
 </html>
