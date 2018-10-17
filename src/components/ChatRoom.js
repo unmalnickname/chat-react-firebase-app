@@ -1,67 +1,77 @@
 import React, { Component } from 'react';
+import { render } from 'react-dom';
 
 class ChatRoom extends Component {
+
     constructor() {
         super();
         this.updateMessage = this.updateMessage.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.state = {
             message: '',
-            messages: [
-                { id: 0, text: 'Hola,' },
-                { id: 1, text: 'Avengers' }
-
-            ]
+            messages: []
         }
     }
+
+    componentDidMount() {
+        firebase.database().ref('messages/').on('value', snapshot => {
+            const currentMessages = snapshot.val();
+
+            if (currentMessages != null) {
+                this.setState({
+                    messages: currentMessages
+                });
+            }
+
+        });
+    }
+
     updateMessage(e) {
         this.setState({
             message: e.target.value
-        })
-        // console.log(this.state.message);
-
+        });
     }
+
     submitMessage() {
         const message = {
             id: this.state.messages.length,
             text: this.state.message
-        }
+        };
 
-        let listMessages = this.state.messages;
-        listMessages.push(message)
-        this.setState({
-            messages: listMessages
-        })
-        this.setState({ message: '' })
-
+        console.log(message)
+        firebase.database().ref('messages/' + message.id).set(message);
     }
+
     render() {
+        // looping Messages
         const currentMessages = this.state.messages.map((message, i) => {
             return (
-                <li key={message.id} className="list-group-item">{message.text}</li>
+                <li key={message.id} className="list-group-item list-group-item-action">{message.text}</li>
             )
         })
 
         return (
             <div className="card">
                 <div className="card-body">
-                    <ul className="list-group">                        {currentMessages}
+                    <ul className="list-group">
+                        {currentMessages}
                     </ul>
                 </div>
+
                 <div className="card-footer">
                     <input
-                        value={this.state.message}
+                        type="text"
+                        placeholder="Type your Message"
                         onChange={this.updateMessage}
                         className="form-control"
-                        type="text"
-                        placeholder="Write A Message " />
-                    <button
-                        onClick={this.submitMessage}
-                        className="btn btn-primary btn-block">Send Message</button>
+                    />
+                    <button onClick={this.submitMessage} className="btn btn-primary btn-block">
+                        Send
+          </button>
                 </div>
             </div>
         )
     }
 }
 
-export default ChatRoom
+export default ChatRoom;
